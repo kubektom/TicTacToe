@@ -18,7 +18,7 @@ public class Gui extends JFrame {
         this.setResizable(false);
 
     }
-    void initComponents(){
+    void initComponents(){//Setting components
 
             buttonsPanel=new JPanel(new GridLayout(3,3));
             buttonsPanel.setSize(400,400);
@@ -38,6 +38,7 @@ public class Gui extends JFrame {
             statusPanel.add(newGameButton);
             status2Panel.add(status);
             status2Panel.add(status2);
+            //Reaction OnClick on newGameButton
             newGameButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -48,6 +49,7 @@ public class Gui extends JFrame {
 
             try {
                 tab[i]=new MButton();
+                tab[i].flag=""+i;
                 tab[i].addActionListener(new MButtonListener());
                 tab[i].setBounds(0,0,100,100);
                 tab[i].setSize(100,100);
@@ -65,6 +67,7 @@ public class Gui extends JFrame {
 
         //
     }
+    //Globals##############################################
     private JPanel buttonsPanel;
     private JPanel newGamePanel;
     private JPanel statusPanel;
@@ -75,32 +78,44 @@ public class Gui extends JFrame {
     private JLabel status;
     private JLabel status2;
 
+//##############################################################
     private class MButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e){
-            if(((MButton)e.getSource()).flag!="O" || ((MButton)e.getSource()).flag!="X") {
+            for(int i=0; i<tab.length;i++){
+                tab[i].isEnabled=false;
+            }
+            if(!((MButton)e.getSource()).flag.equals("O" ) && !((MButton)e.getSource()).flag.equals("X")) {
+
+
                 ((MButton) e.getSource()).removeActionListener(((MButton) e.getSource()).getActionListeners()[0]);
                 ((MButton) e.getSource()).setContentAreaFilled(false);
                 ((MButton) e.getSource()).setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 ((MButton) e.getSource()).setFocusable(false);
                 ((MButton) e.getSource()).isEnabled=false;
                 if(whichMove=="O") {
-                    ((MButton) e.getSource()).setIcon(new ImageIcon("O.png"));
                     whichMove = "X";
+                    ((MButton) e.getSource()).setIcon(new ImageIcon("O.png"));
                     status2.setIcon(new ImageIcon("small_X.png"));
+
                 }
                 else{
-                    ((MButton) e.getSource()).setIcon(new ImageIcon("X.png"));
                     whichMove = "O";
+                    ((MButton) e.getSource()).setIcon(new ImageIcon("X.png"));
                     status2.setIcon(new ImageIcon("small_O.png"));
-                }
 
+                }
                 ((MButton) e.getSource()).flag=whichMove;
                 checkIfWin();
+
+                for(int i=0; i<tab.length;i++){
+                    tab[i].isEnabled=true;
+                }
             }
 
         }
     }
+    //Conditions to win
     public void checkIfWin(){
 
         if(tab[0].flag.equals(tab[1].flag) && tab[0].flag.equals(tab[2].flag) ||
@@ -117,7 +132,7 @@ public class Gui extends JFrame {
                 JOptionPane.showMessageDialog(buttonsPanel, "Wygrało kółko");
 
             newGameF();
-        }
+        }//Conditions to draw
         else{
             if((tab[0].flag.equals("O") || tab[0].flag.equals("X")) &&
             (tab[1].flag.equals("O") || tab[1].flag.equals("X")) &&
@@ -133,15 +148,16 @@ public class Gui extends JFrame {
             }
         }
     }
+    //Resetting the board
     public void newGameF() {
-        for(int i=0; i<9;i++){
+            for(int i=0; i<tab.length;i++){
             tab[i].addActionListener(new MButtonListener());
             tab[i].flag=""+i;
             tab[i].isEnabled=true;
             tab[i].setIcon(null);
             tab[i].setContentAreaFilled(false);
             tab[i].setBackground(new Color(255,255,255));
-
         }
+
     }
 }
