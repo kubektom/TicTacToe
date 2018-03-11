@@ -16,7 +16,11 @@ public class Gui extends JFrame {
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setVisible(true);
         this.setResizable(false);
-
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+    public Gui(Point p) {
+        Gui n = new Gui();
+        n.setLocation(p);
     }
     void initComponents(){//Setting components
 
@@ -150,14 +154,17 @@ public class Gui extends JFrame {
     }
     //Resetting the board
     public void newGameF() {
-            for(int i=0; i<tab.length;i++){
+        Point newGameLocation=this.getLocation();
+        this.dispose();
+        new Gui(newGameLocation);
+            /*for(int i=0; i<tab.length;i++){
             tab[i].addActionListener(new MButtonListener());
             tab[i].flag=""+i;
             tab[i].isEnabled=true;
             tab[i].setIcon(null);
             tab[i].setContentAreaFilled(false);
             tab[i].setBackground(new Color(255,255,255));
-        }
+        }*/
 
     }
 }
