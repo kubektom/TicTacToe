@@ -1,0 +1,4 @@
+out/production/TicTac/META-INF/MANIFEST.MF
+src/META-INF/MANIFEST.MF
+*.jar
+.idea/artifacts/TicTac_jar.xml
